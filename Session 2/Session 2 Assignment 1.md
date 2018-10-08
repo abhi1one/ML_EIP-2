@@ -74,3 +74,120 @@
 
 
 
+### Step 4: Perform linear and non-linear transformation of hidden layer activation at output layer
+
+#### output_layer_input = matrix_dot_product (hiddenlayer_activations * wout ) + bout 
+
+#### output = sigmoid(output_layer_input) 
+
+| output |
+| ------ |
+| 0.85   |
+| 0.84   |
+| 0.86   |
+
+
+
+### Step 5: Calculate gradient of Error(E) at output layer
+
+#### E = y-output
+
+| E     |
+| ----- |
+| 0.15  |
+| 0.16  |
+| -0.86 |
+
+
+
+### Step 6: Compute slope at output and hidden layer
+
+#### Slope_output_layer= derivatives_sigmoid(output)
+
+| Slope output |
+| ------------ |
+| 0.13         |
+| 0.13         |
+| 0.12         |
+
+#### Slope_hidden_layer = derivatives_sigmoid(hiddenlayer_activations)
+
+| Slope Hidden Layer |      |      |
+| ------------------ | ---- | ---- |
+| 0.14               | 0.14 | 0.21 |
+| 0.19               | 0.17 | 0.20 |
+| 0.10               | 0.12 | 0.19 |
+
+
+
+### Step 7: Compute delta at output layer
+
+#### d_output = E * slope_output_layer*lr
+
+| Delta output |
+| ------------ |
+| 0.02         |
+| 0.02         |
+| -0.10        |
+
+
+
+### Step 8: Calculate Error at hidden layer
+
+#### Error_at_hidden_layer = matrix_dot_product(d_output, wout.Transpose)
+
+| Error at Hidden Layer |        |        |
+| --------------------- | ------ | ------ |
+| 0.015                 | 0.004  | 0.009  |
+| 0.016                 | 0.004  | 0.010  |
+| -0.083                | -0.021 | -0.052 |
+
+
+
+### Step 9: Compute delta at hidden layer
+
+#### d_hiddenlayer = Error_at_hidden_layer * slope_hidden_layer
+
+| Delta Hidden Layer |         |         |
+| ------------------ | ------- | ------- |
+| 0.0038             | 0.0039  | 0.0056  |
+| 0.0042             | 0.0043  | 0.0062  |
+| -0.0211            | -0.0215 | -0.0313 |
+
+| Learning Rate |
+| ------------- |
+| 0.1           |
+
+### Step 10: Update weight at both output and hidden layer 
+
+#### wout = wout + matrix_dot_product(hiddenlayer_activations.Transpose,  d_output)*learning_rate
+
+| wout from stpe10 |
+| ---------------- |
+| 0.294            |
+| 0.244            |
+| 0.225            |
+
+#### *wh =  wh+ matrix_dot_product(X.Transpose,d_hiddenlayer)*learning_rate
+
+| wh    |       |       |
+| ----- | ----- | ----- |
+| 0.248 | 0.328 | 0.367 |
+| 0.090 | 0.590 | 0.621 |
+| 0.268 | 0.538 | 0.387 |
+| 0.878 | 0.548 | 0.097 |
+
+### Step 11: Update biases at both output and hidden layer
+
+#### bh = bh + sum(d_hiddenlayer, axis=0) * learning_rate
+
+| bh    |       |       |
+| ----- | ----- | ----- |
+| 0.599 | 0.420 | 0.170 |
+
+#### bout = bout + sum(d_output, axis=0)*learning_rate
+
+| bout based on step 11 |
+| --------------------- |
+| 0.564                 |
+
